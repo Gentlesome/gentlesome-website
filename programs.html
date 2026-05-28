@@ -13,13 +13,13 @@
         <a href="./history.html">历史</a>
         <a href="./objects-store.html">作品</a>
         <a href="./carry-world.html">窗口</a>
-        <a href="./index.html#contact">联系</a>
+        <button type="button" data-open-contact>联系</button>
       </nav>
     </header>
 
     <main>
       <section class="panel editor-main">
-        <div class="editor-intro reveal">
+        <div class="editor-intro reveal page-intro">
           <p class="eyebrow">Spatial Event</p>
           <h1>展览、书籍与活动</h1>
           <p>以观看、阅读与相遇的方式，让 Gentlesome 的感知秩序被真实经历。</p>
@@ -36,6 +36,18 @@
         </div>
       </section>
     </main>
+
+    <div class="contact-modal" data-contact-modal hidden>
+      <div class="contact-backdrop" data-close-contact></div>
+      <section class="contact-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+        <button type="button" class="contact-close" aria-label="关闭" data-close-contact>
+          ×
+        </button>
+        <p class="contact-kicker">Contact Path</p>
+        <h2 id="contact-title">微信联系方式</h2>
+        <p class="contact-id">Gentles_jin7</p>
+      </section>
+    </div>
 
     <script src="./script.js"></script>
   </body>

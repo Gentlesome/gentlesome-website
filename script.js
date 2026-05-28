@@ -190,11 +190,42 @@ const editorConfigs = {
     key: `${STORAGE_PREFIX}carry`,
     linkLabel: "打开关联内容",
     defaults: [
-      { title: "窗口 1：艺术品", desc: "作品链接入口。", link: "./objects-store.html" },
-      { title: "窗口 2：周边", desc: "周边链接入口。", link: "./objects-store.html" },
-      { title: "窗口 3：展览", desc: "展览链接入口。", link: "./programs.html" },
-      { title: "窗口 4：书籍", desc: "书籍链接入口。", link: "./programs.html" },
-      { title: "窗口 5：活动", desc: "活动链接入口。", link: "./programs.html" },
+      {
+        title: "艺术品：画面的原点",
+        desc: "承接作品、限量画面与可被收藏的视觉核心。",
+        link: "./objects-store.html",
+      },
+      {
+        title: "周边：日常的携带",
+        desc: "把艺术元素放进可以触碰、佩戴、陪伴的现实物件。",
+        link: "./objects-store.html",
+      },
+      {
+        title: "展览：空间的现场",
+        desc: "以动线、观看和停留，让精神世界被真实看见。",
+        link: "./programs.html",
+      },
+      {
+        title: "书籍：纸上的档案",
+        desc: "让文字、图像与感知秩序成为可以反复进入的阅读空间。",
+        link: "./programs.html",
+      },
+      {
+        title: "活动：人与愿望相遇",
+        desc: "通过分享、合作与线下相遇，让温柔进入真实关系。",
+        link: "./programs.html",
+      },
+    ],
+  },
+  spirit: {
+    key: `${STORAGE_PREFIX}spirit`,
+    linkLabel: "来源",
+    defaults: [
+      {
+        title: "梦幻而又狂乱的内在力量",
+        desc: "梦幻而又狂乱的内在力量，必然要用梦幻般的狂乱形式才能表达。心灵不可捉摸的流荡既然那样重要，那也就得以不可捉摸的流荡的语言和艺术形式去把它展现出来。",
+        link: "《世界戏剧学》余秋雨",
+      },
     ],
   },
 };
@@ -274,6 +305,10 @@ function setupEditorPage() {
     listNode.innerHTML = items
       .map((item, index) => {
         const anchorId = type === "carry" ? `id="item-${index + 1}"` : "";
+        const meta = type === "spirit"
+          ? `<span class="item-source">${config.linkLabel}：${item.link}</span>`
+          : `<a class="card-link" target="_blank" rel="noreferrer" href="${item.link}">${config.linkLabel}</a>`;
+
         return `
           <article class="item-row" ${anchorId}>
             <div class="item-row-head">
@@ -284,7 +319,7 @@ function setupEditorPage() {
               </div>
             </div>
             <p class="item-desc">${item.desc}</p>
-            <a class="card-link" target="_blank" rel="noreferrer" href="${item.link}">${config.linkLabel}</a>
+            ${meta}
           </article>
         `;
       })

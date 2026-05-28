@@ -13,29 +13,48 @@
         <a href="./history.html">历史</a>
         <a href="./objects-store.html">作品</a>
         <a href="./programs.html">项目</a>
-        <a href="./index.html#contact">联系</a>
+        <button type="button" data-open-contact>联系</button>
       </nav>
     </header>
 
     <main>
       <section class="panel editor-main">
-        <div class="editor-intro reveal">
+        <div class="editor-intro reveal page-intro">
           <p class="eyebrow">Carry The World</p>
           <h1>从作品，到可以带走的世界。</h1>
-          <p>一到五的五个小窗口均可点击，其链接内容均与标题相关，可添加删除。</p>
+          <p>五个窗口分别承接作品、周边、展览、书籍与活动，也可以继续添加、编辑与删除。</p>
         </div>
 
-        <div class="editor-grid">
-          <section class="editor-card reveal" data-editor="carry">
-            <h2>五个可点击窗口（可添加删除）</h2>
+        <div class="editor-grid carry-editor-grid">
+          <section class="editor-card reveal carry-control-card" data-editor="carry">
+            <h2>可带走世界的五个入口</h2>
             <div class="editor-toolbar">
               <button class="ui-btn" type="button" data-add-item>添加窗口</button>
             </div>
             <div class="item-list" data-item-list></div>
           </section>
+          <aside class="carry-atmosphere reveal" aria-label="五个入口的空间区分">
+            <span>01 Art</span>
+            <span>02 Object</span>
+            <span>03 Space</span>
+            <span>04 Book</span>
+            <span>05 Meeting</span>
+          </aside>
         </div>
       </section>
     </main>
+
+    <div class="contact-modal" data-contact-modal hidden>
+      <div class="contact-backdrop" data-close-contact></div>
+      <section class="contact-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+        <button type="button" class="contact-close" aria-label="关闭" data-close-contact>
+          ×
+        </button>
+        <p class="contact-kicker">Contact Path</p>
+        <h2 id="contact-title">微信联系方式</h2>
+        <p class="contact-id">Gentles_jin7</p>
+      </section>
+    </div>
 
     <script src="./script.js"></script>
   </body>

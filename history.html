@@ -13,45 +13,66 @@
         <a href="./objects-store.html">作品</a>
         <a href="./programs.html">项目</a>
         <a href="./carry-world.html">窗口</a>
-        <a href="./index.html#contact">联系</a>
+        <button type="button" data-open-contact>联系</button>
       </nav>
     </header>
 
     <main>
       <section class="panel editor-main editor-history">
-        <div class="editor-intro reveal">
+        <div class="editor-intro reveal page-intro">
           <p class="eyebrow">Manifesto History</p>
           <h1>为了安全，请务必温柔。</h1>
           <p>
-            这句宣言源于张嘉通三幅作品带来的感受，并持续成为 Gentlesome 的精神核心。
+            画作未必带来相同的想象，但张嘉通的文字给予了 Gentlesome 最初的理想。
           </p>
         </div>
 
         <div class="editor-grid">
-          <section class="editor-card reveal works-gallery">
-            <h2>张嘉通 · 三幅作品</h2>
-            <div class="works-grid">
-              <article class="work-item">
-                <div class="work-visual work-visual-a" aria-hidden="true"></div>
-                <h3>作品一</h3>
-                <p>愿望的起点：关于温柔与被保护感的第一次凝视。</p>
-              </article>
-              <article class="work-item">
-                <div class="work-visual work-visual-b" aria-hidden="true"></div>
-                <h3>作品二</h3>
-                <p>现实的软化：让不堪变得柔软，情绪有了可安放的位置。</p>
-              </article>
-              <article class="work-item">
-                <div class="work-visual work-visual-c" aria-hidden="true"></div>
-                <h3>作品三</h3>
-                <p>核心成句：愿爱不再盲目，最终沉淀为品牌宣言。</p>
-              </article>
+          <section class="editor-card reveal works-gallery manifesto-combined">
+            <figure class="manifesto-artwork">
+              <img src="./assets/gentlesome-zhang-jiatong.png" alt="《GENTLESOME》张嘉通作品画面" />
+              <figcaption>
+                <span class="art-title">《GENTLESOME》</span>
+                <span class="art-wish">
+                  是一个美好的愿望。愿这个世界变得温柔、可爱，愿新的生命健康、勇敢，充满爱与糖果，愿所有的不堪都变得柔软、滑稽，愿爱不再盲目，美好永远美好。为了安全，请务必温柔。
+                </span>
+                <span class="art-author">——张嘉通</span>
+              </figcaption>
+              <div class="manifesto-origin">
+                <h2>文字给予了想象</h2>
+                <p>
+                  作品的画面未必带给我相同的想象，但张嘉通写下的这段话给了 Gentlesome 最初的方向。
+                  这也是艺术传播的力量：它让一句愿望越过作品本身，进入现实，并逐渐长成品牌的精神中心。
+                </p>
+              </div>
+            </figure>
+          </section>
+
+          <section class="editor-card reveal spirit-archive" data-editor="spirit">
+            <div class="archive-head">
+              <div>
+                <p class="eyebrow">Spirit Archive</p>
+                <h2>精神话语</h2>
+              </div>
+              <button class="ui-btn" type="button" data-add-item>添加</button>
             </div>
-            <p class="work-note">注：此处为作品陈列位，可后续替换为真实作品图。</p>
+            <div class="item-list spirit-list" data-item-list></div>
           </section>
         </div>
       </section>
     </main>
+
+    <div class="contact-modal" data-contact-modal hidden>
+      <div class="contact-backdrop" data-close-contact></div>
+      <section class="contact-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+        <button type="button" class="contact-close" aria-label="关闭" data-close-contact>
+          ×
+        </button>
+        <p class="contact-kicker">Contact Path</p>
+        <h2 id="contact-title">微信联系方式</h2>
+        <p class="contact-id">Gentles_jin7</p>
+      </section>
+    </div>
 
     <script src="./script.js"></script>
   </body>
