@@ -24,6 +24,7 @@ if (revealItems.length) {
 }
 
 const depthLayers = document.querySelectorAll(".depth-layer");
+const artToneSections = document.querySelectorAll("[data-art-tone]");
 let isTicking = false;
 
 function clamp(value, min, max) {
@@ -99,6 +100,7 @@ function updateDepth() {
   });
 
   updateLogoVisibility();
+  updateArtTone();
   isTicking = false;
 }
 
@@ -114,6 +116,43 @@ window.addEventListener("resize", queueDepthUpdate);
 window.addEventListener("load", queueDepthUpdate);
 
 queueDepthUpdate();
+
+function updateArtTone() {
+  if (!artToneSections.length) {
+    return;
+  }
+
+  const viewportMid = window.innerHeight / 2;
+  let activeTone = "";
+  let activeStrength = 0;
+
+  artToneSections.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    const sectionMid = rect.top + rect.height / 2;
+    const visible = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (!visible) {
+      return;
+    }
+
+    const distance = Math.abs(sectionMid - viewportMid);
+    const range = window.innerHeight * 1.08;
+    const strength = clamp(1 - distance / range, 0, 0.82);
+
+    if (strength > activeStrength) {
+      activeStrength = strength;
+      activeTone = section.getAttribute("data-art-tone") || "";
+    }
+  });
+
+  if (activeTone && activeStrength > 0.04) {
+    document.body.setAttribute("data-art-tone", activeTone);
+    document.body.style.setProperty("--art-tone-opacity", activeStrength.toFixed(3));
+  } else {
+    document.body.removeAttribute("data-art-tone");
+    document.body.style.setProperty("--art-tone-opacity", "0");
+  }
+}
 
 const contactModal = document.querySelector("[data-contact-modal]");
 
@@ -400,6 +439,8 @@ function setupPageLayouts() {
     body.setAttribute("data-layout", "carry");
   } else if (page === "history.html") {
     body.setAttribute("data-layout", "history");
+  } else if (page === "art-consciousness.html") {
+    body.setAttribute("data-layout", "art-consciousness");
   }
 }
 

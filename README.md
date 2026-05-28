@@ -10,6 +10,16 @@ This repository contains the static website files for the `Gentlesome` brand sit
 - `login.html`: personal space login page
 - `login.css`: login page styles
 
+## Section Naming
+
+For future edits, the homepage sections can be referenced by these shorthand names:
+
+- A区: 让精神世界，在现实中被看见。
+- B区: 品牌宣言，是一个美好的愿望。
+- C区: 现实中的艺术元素，从作品，到可以带走的世界。
+- D区: 探索视角，远望，是世界。靠近，是细节。
+- E区: Contact，让愿望，继续发生在现实里。
+
 ## Upload To GitHub
 
 1. Create a new repository on GitHub.

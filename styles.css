@@ -36,7 +36,21 @@ body {
     radial-gradient(circle at top left, rgba(88, 141, 255, 0.12), transparent 30%),
     radial-gradient(circle at 80% 20%, rgba(135, 177, 255, 0.14), transparent 28%),
     linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+  background-attachment: fixed;
   overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--art-tone-overlay, linear-gradient(180deg, transparent, transparent));
+  opacity: var(--art-tone-opacity, 0);
+  transition:
+    opacity 980ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 980ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 a {
@@ -774,6 +788,146 @@ main {
   font-size: 1.2rem;
 }
 
+.art-consciousness-main {
+  padding-left: clamp(8.5rem, 13vw, 13rem);
+}
+
+.art-consciousness-page {
+  --art-tone-overlay: linear-gradient(180deg, transparent, transparent);
+  --art-tone-opacity: 0;
+}
+
+.art-consciousness-intro {
+  display: flex;
+  align-items: center;
+  min-height: 92vh;
+  padding-bottom: 10vh;
+}
+
+.art-piece {
+  position: relative;
+  min-height: 145vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 2rem 12rem;
+  isolation: isolate;
+}
+
+.art-piece-purple {
+  justify-content: flex-end;
+  padding-right: clamp(4rem, 10vw, 11rem);
+}
+
+.art-piece-green {
+  justify-content: flex-start;
+  margin-top: 34vh;
+  padding-left: clamp(3rem, 8vw, 9rem);
+}
+
+.art-piece-frame {
+  position: relative;
+  z-index: 2;
+  width: min(34rem, 48vw);
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 0.5px solid rgba(39, 82, 163, 0.12);
+  box-shadow:
+    0 34px 90px rgba(22, 44, 90, 0.12),
+    0 0 0 18px rgba(255, 255, 255, 0.05);
+}
+
+.art-piece-green .art-piece-frame {
+  width: min(36rem, 50vw);
+}
+
+.art-piece-frame img {
+  display: block;
+  width: 100%;
+  max-height: 54vh;
+  height: auto;
+  border-radius: 0;
+  transform-origin: center;
+}
+
+.art-crop-purple {
+  transform: scale(1.18);
+}
+
+.art-crop-green {
+  transform: scale(1.12);
+}
+
+.art-field {
+  position: absolute;
+  z-index: 1;
+  width: min(45rem, 56vw);
+  aspect-ratio: 1.36;
+  border-radius: 42% 58% 48% 52% / 48% 42% 58% 52%;
+  pointer-events: none;
+  filter: blur(0.1px);
+}
+
+.art-piece-purple .art-field {
+  right: clamp(2rem, 7vw, 8rem);
+  top: 50%;
+  transform: translateY(-50%) rotate(-5deg);
+  background:
+    radial-gradient(circle at 68% 34%, rgba(197, 188, 244, 0.5), transparent 36%),
+    linear-gradient(135deg, rgba(239, 238, 255, 0.52), rgba(229, 238, 255, 0.14));
+}
+
+.art-piece-green .art-field {
+  left: clamp(1.5rem, 5vw, 6rem);
+  top: 50%;
+  transform: translateY(-50%) rotate(4deg);
+  background:
+    radial-gradient(circle at 34% 42%, rgba(185, 224, 191, 0.52), transparent 38%),
+    linear-gradient(145deg, rgba(233, 249, 231, 0.5), rgba(228, 240, 255, 0.12));
+}
+
+.art-field::before {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border: 0.5px solid rgba(39, 82, 163, 0.12);
+  border-radius: inherit;
+}
+
+.art-field-line {
+  position: absolute;
+  height: 0.5px;
+  background: rgba(39, 82, 163, 0.14);
+  transform-origin: center;
+}
+
+.art-field-line-a {
+  width: 62%;
+  left: 7%;
+  top: 28%;
+  transform: rotate(-7deg);
+}
+
+.art-field-line-b {
+  width: 46%;
+  right: 10%;
+  bottom: 24%;
+  transform: rotate(9deg);
+}
+
+body[data-art-tone="purple"] {
+  --art-tone-overlay:
+    radial-gradient(circle at 72% 42%, rgba(190, 184, 244, 0.45), transparent 34%),
+    linear-gradient(180deg, rgba(247, 249, 255, 0.08), rgba(232, 230, 255, 0.3) 48%, rgba(235, 242, 255, 0.08));
+}
+
+body[data-art-tone="green"] {
+  --art-tone-overlay:
+    radial-gradient(circle at 32% 48%, rgba(184, 222, 191, 0.45), transparent 36%),
+    linear-gradient(180deg, rgba(247, 251, 255, 0.08), rgba(226, 246, 228, 0.3) 52%, rgba(235, 242, 255, 0.08));
+}
+
 .editor-main {
   width: min(var(--max-width), 100%);
   margin: 0 auto;
@@ -1272,6 +1426,25 @@ body[data-layout="carry"] .editor-intro {
   .feature-card:nth-child(5) {
     grid-column: span 1;
   }
+
+  .art-consciousness-main {
+    padding-left: 0;
+  }
+
+  .art-piece-frame,
+  .art-piece-green .art-piece-frame {
+    width: min(70vw, 36rem);
+  }
+
+  .art-piece-purple,
+  .art-piece-green {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .art-field {
+    width: min(78vw, 40rem);
+  }
 }
 
 @media (max-width: 760px) {
@@ -1364,6 +1537,32 @@ body[data-layout="carry"] .editor-intro {
 
   .editor-main {
     padding: 6.8rem 1rem 3rem;
+  }
+
+  .art-consciousness-intro {
+    min-height: 84vh;
+  }
+
+  .art-piece {
+    min-height: 125vh;
+    padding: 5rem 1rem 7rem;
+    justify-content: center;
+  }
+
+  .art-piece-green {
+    margin-top: 18vh;
+  }
+
+  .art-piece-frame,
+  .art-piece-green .art-piece-frame {
+    width: min(82vw, 28rem);
+  }
+
+  .art-field {
+    width: 88vw;
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) rotate(-3deg) !important;
   }
 
   .works-grid {

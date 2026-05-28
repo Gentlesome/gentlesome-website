@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gentlesome · 艺术意识的予我的衍生</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="art-consciousness-page">
+    <a class="logo" href="./index.html" aria-label="返回首页" data-logo="Gentlesome">Gentlesome</a>
+    <header class="site-header">
+      <nav class="site-nav" aria-label="主导航">
+        <a href="./history.html">历史</a>
+        <a href="./objects-store.html">作品</a>
+        <a href="./programs.html">项目</a>
+        <button type="button" data-open-contact>联系</button>
+      </nav>
+    </header>
+
+    <main class="art-consciousness-main" data-art-consciousness>
+      <section class="panel art-consciousness-intro">
+        <div class="editor-intro reveal page-intro">
+          <p class="eyebrow">Derivative Consciousness</p>
+          <h1>艺术意识的予我的衍生。</h1>
+        </div>
+      </section>
+
+      <section class="art-piece art-piece-purple" data-art-tone="purple">
+        <div class="art-field" aria-hidden="true">
+          <span class="art-field-line art-field-line-a"></span>
+          <span class="art-field-line art-field-line-b"></span>
+        </div>
+        <figure class="art-piece-frame reveal">
+          <img class="art-crop-purple" src="./assets/art-consciousness-purple.jpeg" alt="紫蓝色线描城市作品" />
+        </figure>
+      </section>
+
+      <section class="art-piece art-piece-green" data-art-tone="green">
+        <div class="art-field" aria-hidden="true">
+          <span class="art-field-line art-field-line-a"></span>
+          <span class="art-field-line art-field-line-b"></span>
+        </div>
+        <figure class="art-piece-frame reveal">
+          <img class="art-crop-green" src="./assets/art-consciousness-green.jpeg" alt="绿色线描城市作品" />
+        </figure>
+      </section>
+    </main>
+
+    <div class="contact-modal" data-contact-modal hidden>
+      <div class="contact-backdrop" data-close-contact></div>
+      <section class="contact-panel" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+        <button type="button" class="contact-close" aria-label="关闭" data-close-contact>
+          ×
+        </button>
+        <p class="contact-kicker">Contact Path</p>
+        <h2 id="contact-title">微信联系方式</h2>
+        <p class="contact-id">Gentles_jin7</p>
+      </section>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
