@@ -26,6 +26,19 @@
       </section>
 
       <section class="art-piece art-piece-purple" data-art-tone="purple">
+        <aside class="essay-hub reveal" data-essay-library>
+          <div class="essay-hub-head">
+            <p class="eyebrow">Essay Collection</p>
+            <h2>Gentlesome 散文集</h2>
+          </div>
+          <div class="essay-hub-grid">
+            <div class="essay-category-list" data-essay-categories></div>
+            <aside class="essay-side-window" data-essay-side-window aria-label="分类文章题目" hidden>
+              <p class="essay-side-title" data-essay-side-title>请选择分类</p>
+              <div class="essay-side-list" data-essay-side-list></div>
+            </aside>
+          </div>
+        </aside>
         <div class="art-field" aria-hidden="true">
           <span class="art-field-line art-field-line-a"></span>
           <span class="art-field-line art-field-line-b"></span>
@@ -44,7 +57,20 @@
           <img class="art-crop-green" src="./assets/art-consciousness-green.jpeg" alt="绿色线描城市作品" />
         </figure>
       </section>
+
     </main>
+
+    <div class="essay-modal" data-essay-modal hidden>
+      <div class="essay-backdrop" data-close-essay></div>
+      <article class="essay-panel" role="dialog" aria-modal="true" aria-labelledby="essay-title">
+        <button type="button" class="essay-close" aria-label="关闭文章" data-close-essay>
+          ×
+        </button>
+        <p class="essay-kicker" data-essay-section></p>
+        <h2 id="essay-title" data-essay-title></h2>
+        <div class="essay-body" data-essay-body></div>
+      </article>
+    </div>
 
     <div class="contact-modal" data-contact-modal hidden>
       <div class="contact-backdrop" data-close-contact></div>
@@ -58,6 +84,7 @@
       </section>
     </div>
 
+    <script src="./essays-data.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

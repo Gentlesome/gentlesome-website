@@ -1,7 +1,7 @@
 const revealItems = document.querySelectorAll(".reveal");
 const logo = document.querySelector(".logo");
 const textTargets = document.querySelectorAll(
-  ".hero-copy, .section-copy, .statement-shell, .feature-card, .frame, .depth-card, .editor-intro, .editor-card, .history-item, .work-item"
+  ".hero-copy, .section-copy, .statement-shell, .feature-card, .frame, .depth-card, .editor-intro, .editor-card, .history-item, .work-item, .essay-hub, .essay-category-button, .essay-panel"
 );
 
 if (revealItems.length) {
@@ -185,6 +185,230 @@ function setupContactModal() {
 }
 
 setupContactModal();
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function setupEssayLibrary() {
+  const library = document.querySelector("[data-essay-library]");
+  const categoriesNode = document.querySelector("[data-essay-categories]");
+  const sideWindowNode = document.querySelector("[data-essay-side-window]");
+  const sideTitleNode = document.querySelector("[data-essay-side-title]");
+  const sideListNode = document.querySelector("[data-essay-side-list]");
+  const modal = document.querySelector("[data-essay-modal]");
+
+  if (
+    !library ||
+    !categoriesNode ||
+    !sideWindowNode ||
+    !sideTitleNode ||
+    !sideListNode ||
+    !modal ||
+    !window.GENTLESOME_ESSAYS
+  ) {
+    return;
+  }
+
+  const titleNode = modal.querySelector("[data-essay-title]");
+  const sectionNode = modal.querySelector("[data-essay-section]");
+  const bodyNode = modal.querySelector("[data-essay-body]");
+  const closers = modal.querySelectorAll("[data-close-essay]");
+  const sections = Array.isArray(window.GENTLESOME_ESSAYS) ? window.GENTLESOME_ESSAYS : [];
+  const essayMap = new Map();
+
+  function getTone(name) {
+    if (name === "动植物园") {
+      return "green";
+    }
+    if (name === "情绪万岁") {
+      return "yellow";
+    }
+    if (name === "海洋居民") {
+      return "blue";
+    }
+    if (name === "较长的回响") {
+      return "purple";
+    }
+    return "green";
+  }
+
+  function normalizeDuplicateLabels(essays = []) {
+    const titleCounter = new Map();
+    essays.forEach((essay) => {
+      const title = String(essay.title || "未命名");
+      titleCounter.set(title, (titleCounter.get(title) || 0) + 1);
+    });
+
+    const seenCounter = new Map();
+    return essays.map((essay, essayIndex) => {
+      const title = String(essay.title || "未命名");
+      const duplicateCount = titleCounter.get(title) || 0;
+      const seen = (seenCounter.get(title) || 0) + 1;
+      seenCounter.set(title, seen);
+      const label = duplicateCount > 1 ? `${title} ${seen}` : title;
+
+      return {
+        ...essay,
+        label,
+        index: essayIndex + 1,
+      };
+    });
+  }
+
+  categoriesNode.innerHTML = sections
+    .map((section, sectionIndex) => {
+      const essays = normalizeDuplicateLabels(section.essays || []);
+      const sectionName = String(section.name || "");
+      const sectionId = `section-${sectionIndex}`;
+      const tone = getTone(sectionName);
+
+      essays.forEach((essay) => {
+        essayMap.set(essay.id, { ...essay, section: sectionName });
+      });
+
+      return `
+        <button
+          class="essay-category-button"
+          type="button"
+          data-essay-section="${escapeHtml(sectionId)}"
+          data-essay-section-toggle
+          data-essay-section-name="${escapeHtml(sectionName)}"
+          data-essay-tone="${escapeHtml(tone)}"
+          aria-expanded="false"
+        >
+          <strong>${escapeHtml(sectionName)}</strong>
+        </button>
+      `;
+    })
+    .join("");
+
+  const sectionTitles = new Map();
+  sections.forEach((section, sectionIndex) => {
+    const sectionId = `section-${sectionIndex}`;
+    const sectionName = String(section.name || "");
+    const essays = normalizeDuplicateLabels(section.essays || []);
+    sectionTitles.set(sectionId, { sectionName, essays });
+  });
+
+  function renderSideList(sectionId) {
+    const data = sectionTitles.get(sectionId);
+    if (!data) {
+      sideTitleNode.textContent = "请选择分类";
+      sideListNode.innerHTML = "";
+      sideWindowNode.hidden = true;
+      library.classList.remove("is-side-open");
+      return;
+    }
+
+    sideWindowNode.hidden = false;
+    library.classList.add("is-side-open");
+    sideTitleNode.textContent = data.sectionName;
+    sideListNode.innerHTML = data.essays
+      .map(
+        (essay) => `
+          <button class="essay-title-button" type="button" data-essay-id="${escapeHtml(essay.id)}">
+            ${escapeHtml(essay.label)}
+          </button>
+        `
+      )
+      .join("");
+  }
+
+  function closeEssay() {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function openEssay(essay) {
+    if (!titleNode || !sectionNode || !bodyNode) {
+      return;
+    }
+
+    sectionNode.textContent = essay.section;
+    titleNode.textContent = `《${essay.title}》`;
+    bodyNode.innerHTML = (essay.paragraphs || [])
+      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .join("");
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  categoriesNode.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const button = target.closest("[data-essay-section-toggle]");
+    if (!(button instanceof HTMLElement)) {
+      return;
+    }
+
+    const sectionId = button.getAttribute("data-essay-section") || "";
+    const isCurrentOpen = button.classList.contains("is-active");
+
+    if (isCurrentOpen) {
+      const categoryButtons = categoriesNode.querySelectorAll("[data-essay-section-toggle]");
+      categoryButtons.forEach((item) => {
+        if (!(item instanceof HTMLElement)) {
+          return;
+        }
+        item.classList.remove("is-active");
+        item.setAttribute("aria-expanded", "false");
+      });
+      renderSideList("");
+      return;
+    }
+
+    const categoryButtons = categoriesNode.querySelectorAll("[data-essay-section-toggle]");
+    categoryButtons.forEach((item) => {
+      if (!(item instanceof HTMLElement)) {
+        return;
+      }
+
+      item.classList.remove("is-active");
+      item.setAttribute("aria-expanded", "false");
+    });
+
+    button.classList.add("is-active");
+    button.setAttribute("aria-expanded", "true");
+    renderSideList(sectionId);
+  });
+
+  sideListNode.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) {
+      return;
+    }
+
+    const titleButton = target.closest("[data-essay-id]");
+    if (!(titleButton instanceof HTMLElement)) {
+      return;
+    }
+
+    const essayId = titleButton.getAttribute("data-essay-id") || "";
+    const essay = essayMap.get(essayId);
+    if (essay) {
+      openEssay(essay);
+    }
+  });
+
+  closers.forEach((closer) => closer.addEventListener("click", closeEssay));
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) {
+      closeEssay();
+    }
+  });
+}
+
+setupEssayLibrary();
 
 const STORAGE_PREFIX = "gentlesome-live::";
 const editorConfigs = {
